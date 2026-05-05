@@ -79,6 +79,19 @@ export const SettingsScreen: React.FC = () => {
       </Card>
 
       <Card>
+        <H2 style={{ marginBottom: spacing.sm }}>Synchronisation cloud</H2>
+        <Muted style={{ marginBottom: spacing.md }}>
+          Sauvegarde tes données sur Supabase pour les retrouver sur tout appareil.
+          L'app reste utilisable sans connexion.
+        </Muted>
+        <Button
+          label="Configurer la sync cloud"
+          variant="secondary"
+          onPress={() => nav.navigate("Auth")}
+        />
+      </Card>
+
+      <Card>
         <H2 style={{ marginBottom: spacing.sm }}>Données</H2>
         <Button
           label="Réinjecter les données de démo"

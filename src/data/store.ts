@@ -21,6 +21,14 @@ import {
   DEFAULT_SETTINGS,
 } from "./demoProgram";
 import { applyPlanToDays, buildWeeklyPlan } from "./scheduler";
+import {
+  pullAll,
+  pushAll,
+  pushBodyMetric,
+  pushConditioning,
+  pushReadiness,
+  pushSessionLog,
+} from "./cloudSync";
 
 interface AppState {
   hydrated: boolean;
@@ -44,6 +52,9 @@ interface AppState {
 
   resetDemoData: () => void;
   clearAllData: () => void;
+
+  syncFromCloud: () => Promise<boolean>;
+  syncToCloud: () => Promise<void>;
 }
 
 const initialSettings: AppSettings = {
@@ -83,18 +94,45 @@ export const useAppStore = create<AppState>()(
       upsertReadiness: (log) => {
         const others = get().readinessLogs.filter((r) => r.date !== log.date);
         set({ readinessLogs: [...others, log] });
+        void pushReadiness(log).catch(() => undefined);
       },
       upsertSessionLog: (log) => {
         const others = get().sessionLogs.filter((s) => s.id !== log.id);
         set({ sessionLogs: [...others, log] });
+        void pushSessionLog(log).catch(() => undefined);
       },
       upsertConditioning: (log) => {
         const others = get().conditioningLogs.filter((c) => c.id !== log.id);
         set({ conditioningLogs: [...others, log] });
+        void pushConditioning(log).catch(() => undefined);
       },
       upsertBodyMetric: (log) => {
         const others = get().bodyMetricLogs.filter((b) => b.id !== log.id);
         set({ bodyMetricLogs: [...others, log] });
+        void pushBodyMetric(log).catch(() => undefined);
+      },
+
+      syncFromCloud: async () => {
+        const data = await pullAll();
+        if (!data) return false;
+        // Server wins for everything we got back
+        set({
+          sessionLogs: data.sessionLogs,
+          conditioningLogs: data.conditioningLogs,
+          readinessLogs: data.readinessLogs,
+          bodyMetricLogs: data.bodyMetricLogs,
+        });
+        return true;
+      },
+
+      syncToCloud: async () => {
+        const s = get();
+        await pushAll({
+          sessionLogs: s.sessionLogs,
+          conditioningLogs: s.conditioningLogs,
+          readinessLogs: s.readinessLogs,
+          bodyMetricLogs: s.bodyMetricLogs,
+        });
       },
 
       resetDemoData: () => {
