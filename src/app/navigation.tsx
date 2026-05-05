@@ -16,6 +16,7 @@ import { BodyMetricsScreen } from "../features/body/BodyMetricsScreen";
 import { StatsScreen } from "../features/stats/StatsScreen";
 import { SettingsScreen } from "../features/settings/SettingsScreen";
 import { ScheduleSettingsScreen } from "../features/settings/ScheduleSettingsScreen";
+import { AuthScreen } from "../features/auth/AuthScreen";
 
 export type RootStackParamList = {
   Tabs: undefined;
@@ -35,6 +36,7 @@ export type RootStackParamList = {
   Conditioning: undefined;
   BodyMetrics: undefined;
   ScheduleSettings: undefined;
+  Auth: undefined;
 };
 
 export type TabParamList = {
@@ -136,6 +138,7 @@ export const RootNavigation: React.FC = () => (
       <Stack.Screen name="Conditioning" component={ConditioningScreen} options={{ title: "Conditioning" }} />
       <Stack.Screen name="BodyMetrics" component={BodyMetricsScreen} options={{ title: "Mensurations" }} />
       <Stack.Screen name="ScheduleSettings" component={ScheduleSettingsScreen} options={{ title: "Planning" }} />
+      <Stack.Screen name="Auth" component={AuthScreen} options={{ title: "Sync cloud" }} />
     </Stack.Navigator>
   </NavigationContainer>
 );

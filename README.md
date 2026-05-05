@@ -17,6 +17,7 @@ Application mobile (React Native + Expo) de préparation physique orientée **JJ
 - **Suivi physique** : poids, tour de taille, courbe de tendance.
 - **Analytics** : volume hebdo, complétion, top exercices, tendance poids / readiness / bas du dos.
 - **Persistance locale** (AsyncStorage) — pas besoin de compte, tout reste sur le téléphone.
+- **Sync cloud optionnelle** (Supabase) — voir [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md). L'app reste offline-first.
 
 ## Stack technique
 
