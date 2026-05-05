@@ -1,24 +1,23 @@
-// Athletic, dark-first theme. Single source of truth for colors / spacing.
-
 export const colors = {
-  bg: "#0a0a0c",
-  bgElev: "#13141a",
-  bgElev2: "#1a1c24",
-  border: "#26283180",
-  text: "#f5f5f7",
-  textMuted: "#9aa0aa",
-  textDim: "#6b7280",
-  accent: "#e11d2e", // combat red
-  accent2: "#f59e0b",
-  success: "#22c55e",
-  warning: "#f59e0b",
-  danger: "#ef4444",
-  info: "#3b82f6",
-  jjb: "#e11d2e",
-  strength: "#3b82f6",
-  conditioning: "#22c55e",
-  mobility: "#8b5cf6",
-  rest: "#6b7280",
+  bg: "#080a0d",
+  bgElev: "#0f1219",
+  bgElev2: "#161b25",
+  border: "#ffffff14",
+  borderStrong: "#ffffff28",
+  text: "#f0f4f8",
+  textMuted: "#8892a4",
+  textDim: "#4d5566",
+  accent: "#00c2a8",
+  accent2: "#5b8dee",
+  success: "#00d483",
+  warning: "#ffa84c",
+  danger: "#ff4d6d",
+  info: "#5b8dee",
+  jjb: "#ff4d6d",
+  strength: "#5b8dee",
+  conditioning: "#00d483",
+  mobility: "#c084fc",
+  rest: "#4d5566",
 } as const;
 
 export const spacing = {
@@ -31,15 +30,15 @@ export const spacing = {
 } as const;
 
 export const radius = {
-  sm: 6,
-  md: 10,
-  lg: 14,
-  xl: 20,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 22,
 } as const;
 
 export const font = {
-  display: 28,
-  title: 22,
+  display: 32,
+  title: 24,
   h1: 20,
   h2: 17,
   body: 15,

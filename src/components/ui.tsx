@@ -30,7 +30,11 @@ export const Screen: React.FC<{
       {scroll ? (
         <ScrollView
           style={{ flex: 1 }}
-          contentContainerStyle={padded ? { padding: spacing.lg, paddingBottom: 80 } : { paddingBottom: 80 }}
+          contentContainerStyle={
+            padded
+              ? { padding: spacing.lg, paddingBottom: 96 }
+              : { paddingBottom: 96 }
+          }
           keyboardShouldPersistTaps="handled"
         >
           {children}
@@ -52,13 +56,12 @@ export const Card: React.FC<ViewProps & { glow?: string }> = ({
     style={[
       {
         backgroundColor: colors.bgElev,
-        borderRadius: radius.lg,
+        borderRadius: radius.xl,
         padding: spacing.lg,
         borderWidth: 1,
-        borderColor: colors.border,
+        borderColor: glow ? glow + "44" : colors.border,
         marginBottom: spacing.md,
       },
-      glow ? { borderColor: glow + "55", shadowColor: glow } : null,
       style,
     ]}
     {...rest}
@@ -70,7 +73,12 @@ export const Card: React.FC<ViewProps & { glow?: string }> = ({
 export const H1: React.FC<TextProps> = ({ style, ...rest }) => (
   <Text
     style={[
-      { color: colors.text, fontSize: font.title, fontWeight: "800", letterSpacing: 0.3 },
+      {
+        color: colors.text,
+        fontSize: font.title,
+        fontWeight: "800",
+        letterSpacing: -0.5,
+      },
       style,
     ]}
     {...rest}
@@ -80,7 +88,12 @@ export const H1: React.FC<TextProps> = ({ style, ...rest }) => (
 export const H2: React.FC<TextProps> = ({ style, ...rest }) => (
   <Text
     style={[
-      { color: colors.text, fontSize: font.h2, fontWeight: "700" },
+      {
+        color: colors.text,
+        fontSize: font.h2,
+        fontWeight: "700",
+        letterSpacing: -0.2,
+      },
       style,
     ]}
     {...rest}
@@ -100,7 +113,15 @@ export const Muted: React.FC<TextProps> = ({ style, ...rest }) => (
 
 export const Small: React.FC<TextProps> = ({ style, ...rest }) => (
   <Text
-    style={[{ color: colors.textDim, fontSize: font.tiny, letterSpacing: 0.4 }, style]}
+    style={[
+      {
+        color: colors.textDim,
+        fontSize: font.tiny,
+        letterSpacing: 0.8,
+        textTransform: "uppercase",
+      },
+      style,
+    ]}
     {...rest}
   />
 );
@@ -113,19 +134,27 @@ export const Pill: React.FC<{
   <View
     style={[
       {
-        backgroundColor: color + "22",
+        backgroundColor: color + "1a",
         borderColor: color + "55",
         borderWidth: 1,
         borderRadius: radius.xl,
         paddingHorizontal: spacing.md,
-        paddingVertical: 3,
+        paddingVertical: 4,
         alignSelf: "flex-start",
       },
       style,
     ]}
   >
-    <Text style={{ color, fontSize: font.tiny, fontWeight: "700", letterSpacing: 0.5 }}>
-      {label.toUpperCase()}
+    <Text
+      style={{
+        color,
+        fontSize: font.tiny,
+        fontWeight: "800",
+        letterSpacing: 1,
+        textTransform: "uppercase",
+      }}
+    >
+      {label}
     </Text>
   </View>
 );
@@ -145,7 +174,8 @@ export const Button: React.FC<{
       : variant === "secondary"
       ? colors.bgElev2
       : "transparent";
-  const fg = variant === "secondary" || variant === "ghost" ? colors.text : "#fff";
+  const fg =
+    variant === "primary" || variant === "danger" ? "#000" : colors.text;
   return (
     <Pressable
       onPress={onPress}
@@ -155,16 +185,23 @@ export const Button: React.FC<{
           backgroundColor: bg,
           paddingVertical: 14,
           paddingHorizontal: spacing.lg,
-          borderRadius: radius.md,
+          borderRadius: radius.lg,
           alignItems: "center",
-          opacity: disabled ? 0.4 : pressed ? 0.85 : 1,
+          opacity: disabled ? 0.35 : pressed ? 0.8 : 1,
           borderWidth: variant === "ghost" ? 1 : 0,
-          borderColor: colors.border,
+          borderColor: colors.borderStrong,
         },
         style,
       ]}
     >
-      <Text style={{ color: fg, fontWeight: "700", fontSize: font.body }}>
+      <Text
+        style={{
+          color: fg,
+          fontWeight: "800",
+          fontSize: font.body,
+          letterSpacing: 0.3,
+        }}
+      >
         {label}
       </Text>
     </Pressable>
@@ -173,7 +210,10 @@ export const Button: React.FC<{
 
 export const Row: React.FC<ViewProps> = ({ style, children, ...rest }) => (
   <View
-    style={[{ flexDirection: "row", alignItems: "center", gap: spacing.sm }, style]}
+    style={[
+      { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+      style,
+    ]}
     {...rest}
   >
     {children}
@@ -186,7 +226,7 @@ export const Field: React.FC<{
   hint?: string;
 }> = ({ label, children, hint }) => (
   <View style={{ marginBottom: spacing.md }}>
-    <Small style={{ marginBottom: 4 }}>{label.toUpperCase()}</Small>
+    <Small style={{ marginBottom: 6 }}>{label}</Small>
     {children}
     {hint ? <Muted style={{ marginTop: 4 }}>{hint}</Muted> : null}
   </View>
@@ -225,10 +265,10 @@ export const Stepper: React.FC<{
       onPress={() => onChange(Math.max(min, value - step))}
       style={styles.stepBtn}
     >
-      <Text style={styles.stepBtnText}>-</Text>
+      <Text style={styles.stepBtnText}>−</Text>
     </Pressable>
-    <View style={{ minWidth: 60, alignItems: "center" }}>
-      <Body style={{ fontWeight: "700" }}>
+    <View style={{ minWidth: 64, alignItems: "center" }}>
+      <Body style={{ fontWeight: "800", fontSize: font.h2 }}>
         {value}
         {suffix ? ` ${suffix}` : ""}
       </Body>
@@ -250,9 +290,11 @@ export const Segmented: React.FC<{
   <Row
     style={{
       backgroundColor: colors.bgElev2,
-      borderRadius: radius.md,
+      borderRadius: radius.lg,
       padding: 3,
       gap: 0,
+      borderWidth: 1,
+      borderColor: colors.border,
     }}
   >
     {options.map((o) => {
@@ -263,17 +305,18 @@ export const Segmented: React.FC<{
           onPress={() => onChange(o.value)}
           style={{
             flex: 1,
-            paddingVertical: 8,
+            paddingVertical: 9,
             alignItems: "center",
-            borderRadius: radius.sm,
+            borderRadius: radius.md,
             backgroundColor: active ? colors.accent : "transparent",
           }}
         >
           <Text
             style={{
-              color: active ? "#fff" : colors.textMuted,
-              fontWeight: "700",
+              color: active ? "#000" : colors.textMuted,
+              fontWeight: "800",
               fontSize: font.small,
+              letterSpacing: 0.4,
             }}
           >
             {o.label}
@@ -292,18 +335,18 @@ export const Checkbox: React.FC<{ checked: boolean; onPress: () => void }> = ({
     onPress={onPress}
     hitSlop={10}
     style={{
-      width: 26,
-      height: 26,
-      borderRadius: 6,
+      width: 28,
+      height: 28,
+      borderRadius: 99,
       borderWidth: 2,
-      borderColor: checked ? colors.accent : colors.border,
+      borderColor: checked ? colors.accent : colors.borderStrong,
       backgroundColor: checked ? colors.accent : "transparent",
       alignItems: "center",
       justifyContent: "center",
     }}
   >
     {checked ? (
-      <Text style={{ color: "#fff", fontWeight: "900", fontSize: 14 }}>✓</Text>
+      <Text style={{ color: "#000", fontWeight: "900", fontSize: 13 }}>✓</Text>
     ) : null}
   </Pressable>
 );
@@ -312,20 +355,24 @@ export const EmptyState: React.FC<{ title: string; hint?: string }> = ({
   title,
   hint,
 }) => (
-  <View style={{ alignItems: "center", padding: spacing.xl }}>
+  <View style={{ alignItems: "center", padding: spacing.xxl }}>
     <H2 style={{ color: colors.textMuted, marginBottom: spacing.sm }}>{title}</H2>
-    {hint ? <Muted style={{ textAlign: "center" }}>{hint}</Muted> : null}
+    {hint ? (
+      <Muted style={{ textAlign: "center", lineHeight: 20 }}>{hint}</Muted>
+    ) : null}
   </View>
 );
 
 const styles = StyleSheet.create({
   stepBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: radius.md,
+    width: 40,
+    height: 40,
+    borderRadius: radius.lg,
     backgroundColor: colors.bgElev2,
+    borderWidth: 1,
+    borderColor: colors.border,
     alignItems: "center",
     justifyContent: "center",
   },
-  stepBtnText: { color: colors.text, fontSize: 20, fontWeight: "700" },
+  stepBtnText: { color: colors.text, fontSize: 22, fontWeight: "700" },
 });

@@ -17,6 +17,7 @@ import { StatsScreen } from "../features/stats/StatsScreen";
 import { SettingsScreen } from "../features/settings/SettingsScreen";
 import { ScheduleSettingsScreen } from "../features/settings/ScheduleSettingsScreen";
 import { AuthScreen } from "../features/auth/AuthScreen";
+import { ExerciseHistoryScreen } from "../features/history/ExerciseHistoryScreen";
 
 export type RootStackParamList = {
   Tabs: undefined;
@@ -37,6 +38,7 @@ export type RootStackParamList = {
   BodyMetrics: undefined;
   ScheduleSettings: undefined;
   Auth: undefined;
+  ExerciseHistory: { exerciseName: string };
 };
 
 export type TabParamList = {
@@ -50,17 +52,21 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const TabIcon: React.FC<{ label: string; focused: boolean }> = ({ label, focused }) => (
+const TabIcon: React.FC<{ label: string; focused: boolean }> = ({
+  label,
+  focused,
+}) => (
   <View style={{ alignItems: "center" }}>
     <Text
       style={{
         color: focused ? colors.accent : colors.textDim,
         fontWeight: "800",
         fontSize: 11,
-        letterSpacing: 0.6,
+        letterSpacing: 0.8,
+        textTransform: "uppercase",
       }}
     >
-      {label.toUpperCase()}
+      {label}
     </Text>
   </View>
 );
@@ -74,8 +80,8 @@ function Tabs() {
           backgroundColor: colors.bgElev,
           borderTopColor: colors.border,
           height: 64,
-          paddingTop: 8,
-          paddingBottom: 10,
+          paddingTop: 10,
+          paddingBottom: 12,
         },
         tabBarShowLabel: false,
       }}
@@ -83,27 +89,47 @@ function Tabs() {
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ tabBarIcon: ({ focused }) => <TabIcon label="Home" focused={focused} /> }}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon label="Home" focused={focused} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Plan"
         component={PlanScreen}
-        options={{ tabBarIcon: ({ focused }) => <TabIcon label="Plan" focused={focused} /> }}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon label="Plan" focused={focused} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Log"
         component={LogScreen}
-        options={{ tabBarIcon: ({ focused }) => <TabIcon label="Log" focused={focused} /> }}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon label="Log" focused={focused} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Stats"
         component={StatsScreen}
-        options={{ tabBarIcon: ({ focused }) => <TabIcon label="Stats" focused={focused} /> }}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon label="Stats" focused={focused} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ tabBarIcon: ({ focused }) => <TabIcon label="Settings" focused={focused} /> }}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon label="Réglages" focused={focused} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
@@ -125,20 +151,58 @@ export const RootNavigation: React.FC = () => (
   <NavigationContainer theme={navTheme}>
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: colors.bg },
+        headerStyle: { backgroundColor: colors.bgElev },
         headerTintColor: colors.text,
         headerTitleStyle: { fontWeight: "700" },
         contentStyle: { backgroundColor: colors.bg },
+        headerShadowVisible: false,
       }}
     >
-      <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-      <Stack.Screen name="SessionDetail" component={SessionDetailScreen} options={{ title: "Détail séance" }} />
-      <Stack.Screen name="LogSession" component={LogSessionScreen} options={{ title: "Logger la séance" }} />
-      <Stack.Screen name="Checkin" component={CheckinScreen} options={{ title: "Check-in" }} />
-      <Stack.Screen name="Conditioning" component={ConditioningScreen} options={{ title: "Conditioning" }} />
-      <Stack.Screen name="BodyMetrics" component={BodyMetricsScreen} options={{ title: "Mensurations" }} />
-      <Stack.Screen name="ScheduleSettings" component={ScheduleSettingsScreen} options={{ title: "Planning" }} />
-      <Stack.Screen name="Auth" component={AuthScreen} options={{ title: "Sync cloud" }} />
+      <Stack.Screen
+        name="Tabs"
+        component={Tabs}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SessionDetail"
+        component={SessionDetailScreen}
+        options={{ title: "Séance" }}
+      />
+      <Stack.Screen
+        name="LogSession"
+        component={LogSessionScreen}
+        options={{ title: "Logger" }}
+      />
+      <Stack.Screen
+        name="Checkin"
+        component={CheckinScreen}
+        options={{ title: "Check-in" }}
+      />
+      <Stack.Screen
+        name="Conditioning"
+        component={ConditioningScreen}
+        options={{ title: "Conditioning" }}
+      />
+      <Stack.Screen
+        name="BodyMetrics"
+        component={BodyMetricsScreen}
+        options={{ title: "Mensurations" }}
+      />
+      <Stack.Screen
+        name="ScheduleSettings"
+        component={ScheduleSettingsScreen}
+        options={{ title: "Planning" }}
+      />
+      <Stack.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{ title: "Sync cloud" }}
+      />
+      <Stack.Screen
+        name="ExerciseHistory"
+        component={ExerciseHistoryScreen}
+        options={({ route }) => ({ title: route.params.exerciseName })}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );
