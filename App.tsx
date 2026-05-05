@@ -1,9 +1,17 @@
-﻿import { SafeAreaView, Text } from "react-native";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+import { RootNavigation } from "./src/app/navigation";
 
 export default function App() {
   return (
-    <SafeAreaView style={{flex:1,justifyContent:"center",alignItems:"center",backgroundColor:"black"}}>
-      <Text style={{color:"lime",fontSize:28,fontWeight:"700"}}>TEST OK 123</Text>
-    </SafeAreaView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <StatusBar style="light" />
+        <RootNavigation />
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
